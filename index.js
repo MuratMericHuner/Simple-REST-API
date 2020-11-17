@@ -15,17 +15,17 @@ server.get('/all',findall);
 server.get('/', mainmenu);
 server.post('/add/:nom/:prenom/:tel/:mail?', addContact);
 server.get('/search/:nom', searchContact);
-server.put('/update/:nom/:nnom/:prenom/:tel/:mail?', updateContact);
-server.delete('/delete/:nom',deleteContact);
+server.put('/update/:nom/:prenom/:nnom/:nprenom/:tel/:mail?', updateContact);
+server.delete('/delete/:nom/:prenom',deleteContact);
 
 function mainmenu(request,response){
   var reply;
   reply = {
     "/all": "Afficher tous les contacts",
     "/search/nom" : "Afficher un contact par nom ",
-    "/delete/nom": "Supprimer un contact ",
+    "/delete/nom/prenom": "Supprimer un contact ",
     "/add/nom/prenom/tel/mail" : "Ajouter un contact ",
-    "/update/nom/nouveau nom/prenom/tel/mail": "Mettre à jour un contact "
+    "/update/nom/prenom/nouveau nom/nouveau prenom/tel/mail": "Mettre à jour un contact "
   }
   response.send(reply);
 }
@@ -47,9 +47,10 @@ function addContact(request,response){
 
 function updateContact(req,res){
 var nom =req.params.nom;
-let con = contacts.find(con=>con.nom==nom);
+var prenom = req.params.prenom;
+var con = contacts.find((con => con.nom===name) && (con => con.prenom===prenom));
 con.nom=req.params.nnom;
-con.prenom=req.params.prenom;
+con.prenom=req.params.nprenom;
 con.tel=req.params.tel;
 con.mail=req.params.mail;
 var madata=JSON.stringify(contacts,null,2);
@@ -62,7 +63,8 @@ res.send(contacts);
 
 function deleteContact(req,res){
   var name = req.params.nom;
-  var con = contacts.find(contact => contact.nom===name);
+  var prenom = req.params.prenom
+  var con = contacts.find((contact => contact.nom===name) && (contact => contact.prenom===prenom));
   if(con){
       contacts= contacts.filter((contact)=>contact!==con);
   }
