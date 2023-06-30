@@ -1,4 +1,5 @@
 # GL_Projet
+Auteurs : Paul BERGER, Alexandre EMERY, Murat HUNER
 
 Vous pouvez tester les fonctionnalités de l'api avec Postman
 Vous pouvez aussi faire un npm test pour voir l'api fonctionne correctement
